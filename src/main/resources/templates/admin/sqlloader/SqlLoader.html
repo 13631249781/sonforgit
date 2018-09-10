@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/initmenudatatable :: init(~{::title},~{::link},~{::script})">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+<script>
+	function clearSQL(thisForm) {
+		thisForm.sql.value = "";
+	}
+</script>
+<style>
+/* For output table scroll horizontally. */
+.horizontal {
+	width: 100%;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+</style>
+</head>
+<body>
+	<div id="wrapper">
+	<div th:replace="fragment/menu :: menu"></div>
+	<div id="page-wrapper">
+		<div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+			<script th:inline="javascript">
+			showSuccess([[${successMessage}]]?[[${successMessage}]]:"")
+			showInfo([[${infoMessage}]]?[[${infoMessage}]]:"");
+			showWarning([[${warningMessage}]]?[[${warningMessage}]]:"");  
+			showError([[${errorMessage}]]?[[${errorMessage}]]:"");
+		</script>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Developer's Tool</li>
+		<li class="breadcrumb-item active">SQL Loader</li>
+	</ol>
+	<form name="loaderFrm" method="post" action="/admin/sqlloader/SqlLoader">
+		<input type="hidden" name="act" />
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-fw fa-database"></i> SQL Loader
+				<div class="btn-group pull-right">
+					<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-primary btn-xs"> 
+						<input type="radio" name="dbSchema" value="1"> <i class="fa fa-fw fa-database"></i> OPG
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label for="sql">SQL Command</label>
+					<textarea name="sql" id="sql" cols="100" rows="5" class="form-control" required>[[${sql}]]</textarea>
+				</div>
+				<div class="text-center">
+					<button onClick="this.form.act.value = '';" class="btn btn-primary">
+						<i class="fa fa-play "></i> Execute
+					</button>
+					<button onClick="this.form.act.value = 'exportToExcel';" class="btn btn-primary">
+						<i class="fa fa-file-excel-o "></i> Export Excel
+					</button>
+					<input type="button" value="Clear" onClick="clearSQL(this.form)" class="btn">
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="col-11">
+		<div class="horizontal">
+		<th:block  th:each="result : ${resultList}">
+		[(${result})]
+		</th:block>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+</body>
+</HTML>

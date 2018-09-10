@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header(title,links,scripts)">
+    <title th:replace="${title}"></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/bootstrap.min.css}">
+    <th:block th:replace="${links}"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/confirm/jquery-confirm.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/metisMenu/metisMenu.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/select/bootstrap-select.min.css}">
+    <th:block th:replace="${links}"/>
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+    <script th:src="@{/jquery/jquery.min.js}"></script>
+    <script th:src="@{/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap/confirm/jquery-confirm.min.js}"></script>
+    <script  th:src="@{/bootstrap/metisMenu/metisMenu.min.js}"></script>
+    <script  th:src="@{/bootstrap/select/bootstrap-select.min.js}"></script>
+    <th:block th:replace="${scripts}"/>
+    <script  th:src="@{/js/global.js}"></script>
+    <script  th:src="@{/js/sb-admin-2.js}"></script>
+</head>
+</html>

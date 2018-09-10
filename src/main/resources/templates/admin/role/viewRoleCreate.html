@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/admin/role.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Application</li>
+                <li class="breadcrumb-item"><a th:href="@{/role/viewRoleList}">Role</a></li>
+                <li class="breadcrumb-item active">Create Role Info</li>
+            </ol>
+            <form>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-id-badge"></i> Role Information
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label>Role Name</label>
+                                <input type="text" name="roleName" class="form-control" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label>Description</label>
+                                <input type="text" name="description" maxlength="250" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-3">
+                                <label>Allow Action</label>
+                                <input type="hidden" name="viewAction">
+                                <input type="hidden" name="addAction">
+                                <input type="hidden" name="updateAction">
+                                <input type="hidden" name="deleteAction">
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-primary active">
+                                        <input type="radio" name="allowAction" value="None" checked="checked">
+                                        None
+                                    </label>
+                                    <label class="btn btn-primary">
+                                        <input type="radio" name="allowAction" value="Add">
+                                        Add
+                                    </label>
+                                    <label class="btn btn-primary">
+                                        <input type="radio" name="allowAction" value="All">
+                                        All
+                                    </label>
+                                </div>
+                                <p class="help-block">
+                                    <u>Legend</u>
+                                </p>
+                                <p class="help-block">None - View Only</p>
+                                <p class="help-block">Add - Allow Add</p>
+                                <p class="help-block">All - Allow Add / Delete / Update</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <input class="btn btn-primary" type="button" value="Create" onclick="createRole(this.form)">
+                    <input class="btn" type="reset" value="Reset">
+                    <a th:href="@{/role/viewRoleList}" class="btn btn-primary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

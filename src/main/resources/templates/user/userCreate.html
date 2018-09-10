@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" th:href="@{/jquery/ui/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/jquery/ui/jquery-ui.structure.min.css}">
+    <link rel="stylesheet" th:href="@{/jquery/ui/jquery-ui.theme.min.css}">
+    <script th:src="@{/jquery/ui/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/user/userCreate.js}"></script>
+    <script>
+    $(function() {
+		$("#revokeDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			minDate : new Date(),
+			dateFormat : "yy/mm/dd"
+		});
+	});
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">User</li>
+                <li class="breadcrumb-item"><a th:href="@{/user/viewUserList}">User List</a></li>
+                <li class="breadcrumb-item active">Create User</li>
+            </ol>
+            <form id="userForm">
+                <!--<s:hidden name="act" value="create" />-->
+                <!--<s:hidden name="modifyUserBean.reset" value="Y" />-->
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="panel panel-default" id="userPanel">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-user"></i> Staff Information <span id="availabilityNode" class="pull-right"></span> <img th:src="@{/images/loading.gif}" id="loading"
+                                                                                                                                               style="position: inline; z-index: 1; visibility: hidden" class="pull-right">
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group row">
+                                    <div class="col-md-2">Staff Number</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" maxlength="10" name="staffNum" required="required">
+                                    </div>
+                                    <div class="col-md-2">User Name</div>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control input-sm" maxlength="10" name="userName" required="required">
+                                            <span class="input-group-btn">
+										<button class="btn btn-info btn-sm" type="button" onClick="checkStaffNoUserName(this.form);">
+											<i class="fa fa-check"></i>
+										</button>
+									</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">First Name</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" maxlength="50" name="firstName" >
+                                    </div>
+                                    <div class="col-md-2">Last Name</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" maxlength="40" name="lastName" >
+                                    </div>
+                                    <div class="col-md-2">Chinese Name</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" maxlength="30" name="chineseName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-id-card-o"></i> Job Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group row">
+                                    <div class="col-md-2">Role</div>
+                                    <div class="col-md-2">
+                                        <select class="form-control input-sm" name="role">
+                                            <option value="">Select</option>
+                                            <option th:each="list:${roleList}" th:value="${list.roleId}" th:text="${list.roleName}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">Group</div>
+                                    <div class="col-md-2">
+                                        <select name="group"  class="form-control input-sm">
+                                            <option>Select</option>
+                                            <option th:each="list:${groupList}" th:value="${list.groupId}" th:text="${list.groupName}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">Department</div>
+                                    <div class="col-md-2">
+                                        <select name="department" class="form-control input-sm">
+                                            <option value="">Select</option>
+                                            <option th:each="list:${deptList}"  th:value="${list.deptId}" th:text="${list.deptName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">Job Title</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="jobTitle" maxlength="60" >
+                                    </div>
+                                    <div class="col-md-2">Grade</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="grade" maxlength="10" >
+                                    </div>
+                                    <div class="col-md-2">Branch</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="branch" maxlength="55" >
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">CCC</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="ccc" maxlength="7" >
+                                    </div>
+                                    <div class="col-md-2">CCC Name</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="cccName" maxlength="60" >
+                                    </div>
+                                    <div class="col-md-2">Company</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="company" maxlength="40" value="HKT" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-phone"></i> Contact Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group row">
+                                    <div class="col-md-2">Office Email</div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control input-sm" name="msMailAddress" maxlength="50" >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">Other Email</div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control input-sm" name="email" maxlength="50">
+                                    </div>
+                                    <div class="col-md-2">Internet Address</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="internetAddress" maxlength="40">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">Location</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="location" maxlength="30">
+                                    </div>
+                                    <div class="col-md-2">Telephone</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="telephone" maxlength="20">
+                                    </div>
+                                    <div class="col-md-2">Office Phone</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="officePhone" maxlength="20">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">Fax</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="officeFax" maxlength="20">
+                                    </div>
+                                    <div class="col-md-2">Mobile</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="mobile" maxlength="20">
+                                    </div>
+                                    <div class="col-md-2">Pager</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="pager" maxlength="20">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-info"></i> Other Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group row">
+                                    <div class="col-md-2">Status</div>
+                                    <div class="col-md-2">
+                                        <select name="status" class="form-control input-sm">
+                                            <option  value="Active">Active</option>
+                                            <option value="Deleted">Deleted</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">Expiry Date</div>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control input-sm" name="revokeDate" value="2027/12/31" readonly="ture" id="revokeDate">
+                                            <span class="input-group-btn">
+										<button class="btn btn-default input-sm" type="button" onclick="$('#revokeDate').datepicker('show')">
+											<i class="fa fa-calendar"></i>
+										</button>
+									</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">Responsibility</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="responsibility" maxlength="255">
+                                    </div>
+                                    <div class="col-md-2">Supervisor ID</div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" name="manStaffNum" maxlength="10">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">Remark</div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control input-sm" name="remark" maxlength="255">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-bell"></i> User Alert
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-inline" >
+                                    <li th:each="list : ${userAlertList}">
+                                        <label class="btn btn-primary">
+                                            <input type="checkbox" name="alertId" th:value="${list.alertId}" th:checked="${list.userAvailability}">
+                                            <span th:text="${list.alertDescription}"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <input class="btn btn-primary" type="button" value="Submit" onclick="submitUserInfo(this.form)"> <input class="btn" type="reset" value="Reset">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

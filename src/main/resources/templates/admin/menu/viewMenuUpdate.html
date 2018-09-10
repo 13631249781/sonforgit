@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" th:href="@{/jquery/ui/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/jquery/ui/jquery-ui.structure.min.css}">
+    <link rel="stylesheet" th:href="@{/jquery/ui/jquery-ui.theme.min.css}">
+    <script th:src="@{/jquery/ui/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/admin/menu.js}"></script>
+    <script>
+    $(function() {
+		$("#activatedDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			minDate : new Date(),
+			dateFormat : "yy/mm/dd"
+		});
+	});
+
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Application</li>
+                <li class="breadcrumb-item"><a th:href="@{/menu/viewMenuList}">Menu</a></li>
+                <li class="breadcrumb-item active">Update Menu</li>
+            </ol>
+            <form th:object="${menuInfo}" id="menuForm">
+                <input type="hidden" th:field="*{menuId}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-th-list"></i> Menu Information
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label for="menuName">Menu name</label>
+                                <input type="text" class="form-control" name="menuName" maxlength="255"
+                                       required="required" th:value="*{menuName}" id="menuName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-6">
+                                <label for="description">Description</label>
+                                <input type="text" id="description" name="description" maxlength="255"
+                                       class="form-control" required="required" th:value="*{description}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-6">
+                                <label for="menuUri">Menu URI</label>
+                                <input type="text" name="menuUri" id="menuUri" maxlength="255" class="form-control"
+                                       required="required" th:value="*{menuUri}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label for="preMenuId">Pre Menu</label>
+                                <select name="preMenuId" id="preMenuId" class="form-control">
+                                    <option value="0">Nil</option>
+                                    <option th:each="list,listStat:${preMenuList}" th:value="${list.menuId}"
+                                            th:text="${list.menuName}"
+                                            th:selected="${menuInfo.preMenuId eq list.menuId}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-6">
+                                <label style="padding-right: 20px;">Is Pre Menu</label>
+                                <input type="radio" style="padding-left: 0" value="Y" th:field="*{isMenu}">
+                                <span style="padding-right: 10px;">Yes</span>
+                                <input type="radio" style="padding-left: 0" value="N" th:field="*{isMenu}">
+                                <span>No</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-6">
+                                <label style="padding-right: 20px;">Menu Level</label>
+                                <input type="radio" value="1" th:field="*{menuLevel}">
+                                <span style="padding-right: 10px;">First</span>
+                                <input type="radio" value="2" th:field="*{menuLevel}">
+                                <span style="padding-right: 10px;">Second</span>
+                                <input type="radio" value="3" th:field="*{menuLevel}">
+                                <span style="padding-right: 10px;">Third</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-2">
+                                <label>Activation Date</label>
+                                <div class="input-group">
+                                    <input type="text" th:value="*{#dates.format(activatedDate,'yyyy/MM/dd')}"
+                                           class="form-control" name="activatedDate"
+                                           readonly="readonly" required="required" id="activatedDate">
+                                    <span class="input-group-btn">
+								        <button class="btn btn-default" type="button"
+                                                onclick="$('#activatedDate').datepicker('show');">
+									        <i class="fa fa-calendar"></i>
+                                        </button>
+							        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-1">
+                                <label>Sequence</label>
+                                <input type="text" class="form-control" th:field="*{sequence}" maxlength="2"
+                                       required="required">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-3">
+                                <label>Icon Name</label>
+                                <input type="text" class="form-control" th:field="*{iconName}" maxlength="30"
+                                       required="required">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <th:block th:if="${session.userBean.userRole.allowAction}=='Add' or ${session.userBean.userRole.allowAction}=='All'">
+                        <input type="button" value="Submit" onclick="updateMenu(this.form)" class="btn btn-primary">
+                        <input type="reset" value="Reset" class="btn">
+                    </th:block>
+                    <a th:href="@{/menu/view/}+*{menuId}" class="btn btn-primary">Back</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

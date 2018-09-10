@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/initmenudatatable :: init(~{::title},~{::link},~{::script})">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+</head>
+<body>
+	<div id="wrapper">
+	<div th:replace="fragment/menu :: menu"></div>
+		<div id="page-wrapper">
+		<div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+		<script th:inline="javascript">
+		$(document).ready(function() {
+		$("#checkbox").change(function(){
+		 var checkbox = $("#checkbox")
+			if(checkbox.is(":checked")){
+				checkbox.val('Y').attr("checked","checked");
+			}
+			else {
+				checkbox.val('N').removeAttr("checked");
+				
+			}
+			
+		});		
+		});	
+		
+		
+			var message = /*[[${message}]]*/"";
+			console.log(message);
+			if(message){
+			if(message.indexOf("Fail")!=-1)
+				showError(message); 
+			if(message.indexOf("success")!=-1)
+			 	showSuccess(message); 
+			
+			}
+			</script>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Developer's Tool</li>
+		<li class="breadcrumb-item"><a href="/admin/housekeepcommand/HousekeepCommandList">Housekeep Command</a></li>
+		<li class="breadcrumb-item active">Create Housekeep Command</li>
+	</ol>
+	<form method="post" action="/admin/housekeepcommand/HousekeepCommand">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-fw fa-trash-o"></i> Housekeep Command Information
+			</div>
+			<div class="panel-body">
+				<div class="form-group row">
+					<div class="col-xs-2">
+						<label for="housekeepCommandBean_description">Description</label>
+						<input type="text" class="form-control" name="description"  required="required"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-12">
+						<label for="housekeepCommandBean_sqlCommand">SQL Command</label>
+						<input type="text" class="form-control" name="sqlCommand"   required="required">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-2">
+						<label for="housekeepCommandBean_seqNo">Sequence Number</label>
+						    <input type="text" class="form-control" name="seqNo" maxlength="2"  value="1" required="required">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-2">
+						<label for="checkbox">Enabled</label>
+						<input name="enableInd" type="checkbox"  id="checkbox" value="Y" checked="checked" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<input class="btn btn-primary" type="submit" value="Submit"> 
+			<input class="btn" type="reset" value="Reset"> 
+			<input	class="btn btn-primary" type="button" value="Back" onClick="javaScript:window.history.back(-1)">
+		</div>
+		
+	</form>
+</div>
+</div>
+</div>
+</body>
+</html>

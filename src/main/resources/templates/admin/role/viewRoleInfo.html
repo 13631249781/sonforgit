@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/admin/role.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Application</li>
+                <li class="breadcrumb-item"><a th:href="@{/role/viewRoleList}">Role</a></li>
+                <li class="breadcrumb-item active">Role Info Detail</li>
+            </ol>
+            <form th:object="${roleInfo}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-id-badge"></i> Role Information
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Role Name</dt>
+                            <dd>
+                                <span th:text="*{roleName}"></span>
+                            </dd>
+                            <dt>Description</dt>
+                            <dd>
+                                <span th:text="*{description}"></span>
+                            </dd>
+                            <dt>Allow Action</dt>
+                            <dd >
+                                <span th:if="*{addAction eq 'Y' && updateAction eq 'Y'}">All (Add / Delete / Update)</span>
+                                <span th:if="*{addAction eq 'Y' && updateAction eq 'N'}">Add</span>
+                                <span th:unless="*{addAction eq 'Y'}">No rights to Add / Delete / Update</span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <th:block th:if="${session.userBean.userRole.allowAction}=='All'">
+                        <a th:href="|/role/update/*{roleId}|" class="btn btn-primary">Edit</a>
+                        <input class="btn btn-danger" type="button" value="Delete" th:onclick="|delRole(*{roleId})|">
+                    </th:block>
+                    <a th:href="@{/role/viewRoleList}" class="btn btn-primary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

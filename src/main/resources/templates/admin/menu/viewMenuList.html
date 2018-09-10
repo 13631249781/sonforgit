@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/datatable/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/bootstrap/datatable/datatables.min.js}"></script>
+    <script th:src="@{/js/admin/menu.js}"></script>
+    <script>
+        $(function(){
+            var table =$('#menuTable').DataTable();
+            $('#menuTable tbody').on('click','tr',function(){
+               var data = table.row(this).data();
+               window.location.replace('/menu/view/'+data[0]);
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Application</li>
+                <li class="breadcrumb-item active">Menu</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-fw fa-th-list"></i> Menu List
+                    <div class="btn-group pull-right" th:if="${session.userBean.userRole.allowAction}=='Add' or ${session.userBean.userRole.allowAction}=='All'">
+                        <a th:href="@{/menu/viewMenuCreate}" class="btn btn-default btn-xs text-blue">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-hover" id="menuTable" style="width:100%;">
+                        <thead>
+                        <tr>
+                            <th>Menu ID</th>
+                            <th>Menu Name</th>
+                            <th>Description</th>
+                            <th>URI</th>
+                            <th>Pre Menu</th>
+                            <th>Is Pre Menu</th>
+                            <th>Level</th>
+                            <th>Sequence</th>
+                            <th>Activation Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:class="${listStat.odd}?'odd':'even'"  th:each="list,listStat:${menuList}">
+                                <td th:text="${list.menuId}"></td>
+                                <td th:text="${list.menuName}"></td>
+                                <td th:text="${list.description}"></td>
+                                <td th:text="${list.menuUri}"></td>
+                                <td th:text="${list.preMenuId gt 0? list.preMenuId:''}"></td>
+                                <td th:switch="${list.isMenu}">
+                                    <i th:case="Y" class="fa fa-check text-green" title="View"></i>
+                                </td>
+                                <td th:text="${list.menuLevel}"></td>
+                                <td th:text="${list.sequence}"></td>
+                                <td th:text="${#dates.format(list.activatedDate,'yyyy/MM/dd')}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

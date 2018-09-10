@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/datatable/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/bootstrap/datatable/datatables.min.js}"></script>
+    <script>
+        $(function(){
+            var table = $('#dataTable').DataTable();
+            $('#dataTable tbody').on('click','tr',function(){
+               var data = table.row(this).data();
+               window.location.replace('/admin/viewChild/'+data[0]);
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Data Table</li>
+                <li class="breadcrumb-item active">Parent Code</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-fw fa-list-ol"></i> Parent Code List
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%;">
+                        <thead>
+                        <tr>
+                            <th>Parent Code</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:class="${listStat.odd}?'odd':'even'" th:each="list,listStat:${parentCodeList}">
+                            <td th:text="${list.masterAppCode}"></td>
+                            <td th:text="${list.description}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

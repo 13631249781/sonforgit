@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/admin/code.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Data Table</li>
+                <li class="breadcrumb-item"><a th:href="@{/admin/viewCodeList}">Parent Code</a></li>
+                <li class="breadcrumb-item"><a th:href="|@{/admin/viewChild/}${masterAppCd}|">Child Code</a></li>
+                <li class="breadcrumb-item active">Create Child Code</li>
+            </ol>
+            <form>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-list-ol"></i> Child Code
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label>Parent Code</label>
+                                <input type="text" class="form-control" th:value="${masterAppCd}" name="masterAppCd" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label >Child Code</label>
+                                <input type="text" name="appCd" class="form-control" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label>Description</label>
+                                <input type="text" name="appDesc" class="form-control" maxlength="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <input class="btn btn-primary" type="button" value="Save" onclick="createChildCode(this.form)">
+                    <input type="reset" class="btn" value="Reset">
+                    <a th:href="|@{/admin/viewChild/}${masterAppCd}|" class="btn btn-primary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

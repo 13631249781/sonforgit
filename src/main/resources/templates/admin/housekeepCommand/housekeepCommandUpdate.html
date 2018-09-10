@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/initmenudatatable :: init(~{::title},~{::link},~{::script})">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+    <script>
+	$(document).ready(function() {
+	
+		// highlightTableRows must be called before DataTable is created. Otherwise rows that are not in page 1 cannot be clicked. 
+	  	highlightTableRows("dataTable");
+		$('#dataTable').DataTable({
+			responsive : true
+		}); 
+		 
+	$("#checkbox").change(function(){
+	 var checkbox = $("#checkbox")
+		if(checkbox.is(":checked"))
+			checkbox.val('Y');
+		else checkbox.val('N');
+		
+	});		
+	
+	});	
+	
+
+
+	function view(description) {
+		 window.location = "/admin/housekeepcommand/HousekeepCommand/update/" + description; 
+	}
+</script>
+</head>
+<body>
+<div id="wrapper">
+	<div th:replace="fragment/menu :: menu"></div>
+	<div id="page-wrapper">
+		<div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+			<script th:inline="javascript">
+			var message = /*[[${message}]]*/ "";
+			if(message){
+			if(-1!=message.indexOf("Fail"))
+				showError(message); 
+			if(-1!=message.indexOf("Success"))
+			 	showSuccess(message); 
+			}
+			</script>
+	
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Developer's Tool</li>
+		<li class="breadcrumb-item"><a href="/admin/housekeepcommand/HousekeepCommandList">Housekeep Command</a></li>
+		<li class="breadcrumb-item active">Update Housekeep Command</li>
+	</ol>
+	<form method="post" action="/admin/housekeepcommand/HousekeepCommand">
+		<input type="hidden" name="description" th:value="${housekeepCommandBean.description}"/>
+		<input type="hidden" name="createDate" th:value="${#dates.format(housekeepCommandBean.createDate, 'yyyy/MM/dd HH:mm')}"/>
+		<input type="hidden" name="_method" value="put"/>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-fw fa-trash-o"></i> Housekeep Command Information
+			</div>
+			<div class="panel-body">
+				<div class="form-group row">
+					<div class="col-xs-2">
+						<label for="housekeepCommandBean_description">Description</label>
+						<p class="form-control-static">[[${housekeepCommandBean.description}]]</p>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-12">
+						<label for="housekeepCommandBean_sqlCommand">SQL Command</label>
+						<input name="sqlCommand" type="text" class="form-control" required="required" th:value="${housekeepCommandBean.sqlCommand}"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-2">
+						<label for="housekeepCommandBean_seqNo">Sequence Number</label>
+						<input name="seqNo" type="text" class="form-control" required="required" th:value="${housekeepCommandBean.seqNo}"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-2">
+						<label for="checkbox">Enabled</label>
+						<input name="enableInd" type="checkbox"  id="checkbox" th:value="${housekeepCommandBean.enableInd}" 
+						th:checked="${housekeepCommandBean.enableInd}=='Y'" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<input class="btn btn-primary" type="submit" value="Submit"> 
+			<input class="btn" type="reset" value="Reset">
+			<input class="btn btn-primary" type="button" value="Back"
+				onClick="javaScript:window.history.back(-1);">
+		</div>
+	</form>
+</div>
+</div>
+</div>
+</body>
+</html>

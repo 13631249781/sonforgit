@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/admin/group.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Application</li>
+                <li class="breadcrumb-item"><a th:href="@{/group/viewGroupList}">Group</a></li>
+                <li class="breadcrumb-item active">Create Group Info</li>
+            </ol>
+            <form>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-object-group"></i> Group Information
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label for="groupName">Group Name</label>
+                                <input type="text" id="groupName" class="form-control" maxlength="50"  th:required="true" name="groupName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-4">
+                                <label for="description">Description</label>
+                                <input type="text" id="description" name="description" class="form-control" maxlength="250" th:required="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <input type="button" class="btn btn-primary" onclick="createGroup(this.form)" value="Create">
+                    <button type="reset" class="btn">Reset</button>
+                    <a th:href="@{/group/viewGroupList}" class="btn btn-primary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

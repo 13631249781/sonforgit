@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/initmenudatatable :: init(~{::title},~{::link},~{::script})">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+    <script>
+	function deleteItem(aform) {
+		if (confirm("Are you sure to delete this housekeep command?"))
+			aform.submit();
+	}
+</script>
+</head>
+<body>
+	<div id="wrapper">
+	<div th:replace="fragment/menu :: menu"></div>
+	<div id="page-wrapper">
+		<div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+		<script th:inline="javascript">
+			var message = /*[[${message}]]*/ "";
+			if(message){
+			if(-1!=message.indexOf("Fail"))
+				showError(message); 
+			if(-1!=message.indexOf("Success"))
+			 	showSuccess(message); 
+			}
+			
+			function edit(){
+				alert("edit");
+			}
+			</script>
+	
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Developer's Tool</li>
+		<li class="breadcrumb-item"><a href="/admin/housekeepcommand/HousekeepCommandList">Housekeep Command</a></li>
+		<li class="breadcrumb-item active">Housekeep Command Detail</li>
+	</ol>
+	<form method="post" name="deleteHousekeepCommandForm" th:action="'/admin/housekeepcommand/HousekeepCommand/'+${housekeepCommandBean.description}">
+		<input type="hidden" name="_method" value="delete"/>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-fw fa-trash-o"></i> Housekeep Command Information
+			</div>
+			<div class="panel-body">
+				<dl class="dl-horizontal">
+					<dt>Description</dt>
+					<dd>
+					 [[${housekeepCommandBean.description}]]
+					</dd>
+					<dt>SQL Command</dt>
+					<dd>
+					 [[${housekeepCommandBean.sqlCommand}]]
+					</dd>
+					<dt>Sequence Number</dt>
+					<dd>
+					 [[${housekeepCommandBean.seqNo}]]
+					</dd>
+					<dt>Enabled</dt>
+					<dd>
+						<i class="fa fa-check text-green" title="Enabled" th:if="${housekeepCommandBean.enableInd=='Y'}"></i>
+				        <i class="fa fa-times text-red"  th:unless="${housekeepCommandBean.enableInd=='Y'}" title="Enabled"></i>
+					</dd>
+					<dt>Created Date</dt>
+					<dd>
+					 [[${#dates.format(housekeepCommandBean.createDate, "yyyy/MM/dd HH:mm")}]]
+					</dd>
+					<dt>Last Updated Date</dt>
+					<dd>
+					 [[${#dates.format(housekeepCommandBean.lastUpdatedDate, "yyyy/MM/dd HH:mm")}]]
+					</dd>
+					<dt>Last Updated By</dt>
+					<dd>
+					  [[${housekeepCommandBean.lastUpdatedBy}]] [[${session.userBean.userRole.allowAction}]]
+					</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="text-center">
+				<input class="btn btn-primary" type="button" value="Edit" 
+				th:onclick="'javascript:window.location.href=\'/admin/housekeepcommand/HousekeepCommand/update/'+ ${housekeepCommandBean.description}+'\''" 
+				th:if="${session.userBean.userRole.allowAction=='All'}"/>
+				<input class="btn btn-danger" type="button" value="Delete" onClick="deleteItem(this.form)"  
+				 th:if="${session.userBean.userRole.allowAction=='All'}" />
+			<input class="btn btn-primary" type="button" value="Back" onClick="window.history.back(-1)">
+		</div>
+	</form>
+</div>
+</div>
+</div>
+</body>
+</html>

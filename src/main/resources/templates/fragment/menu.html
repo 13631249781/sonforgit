@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="menu" class='navbar navbar-default navbar-static-top' role='navigation' style='margin-bottom: 0'>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/showMenu">RMS</a>
+    </div>
+    <ul class="nav navbar-top-links navbar-right">
+        <li>
+            <a href="/user/updateUserView">
+                <i class="fa fa-fw fa-user-o"></i>
+                Profile
+            </a>
+        </li>
+        <li>
+            <a href="/user/logout" class='nav-link'>
+                <i class="fa fa-fw fa-sign-out"></i>
+                Logout
+            </a>
+        </li>
+    </ul>
+    
+    
+    
+    
+    
+      
+      <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+      
+      <li th:each="fistList: ${session.fistBeanList}">
+      
+      <th:block th:if="${fistList.isMenu}=='Y'">
+      <!-- 第一级表单  有子菜单 -->
+       						 <a href="#">
+                                <i th:class="'fa fa-fw '+${fistList.iconName}"></i>
+                               
+                                [[${fistList.menuName}]] <!-- 这里应该是 “Administration”，有双引号 -->
+                                <span class="fa arrow"></span>
+                            </a>
+      
+      <ul class='nav nav-second-level'> 
+          			 <th:block th:each="secondList : ${session.secondBeanList}">  
+            		 <th:block th:if="${fistList.menuId}==${secondList.preMenuId}">
+                     <li>
+                    <!--   [[${secondList.isMenu}]]|| [[${secondList.menuName}]] -->
+                     <th:block th:if="${secondList.isMenu}=='Y'">
+                     <!-- 第二级表单 有子菜单-->
+                     <a class='#'>
+                     <i th:class="'fa fa-fw '+${secondList.iconName}"></i>
+                     [[${secondList.menuName}]]
+                     <span class='fa arrow'></span></a>
+                     
+                     
+                        <ul class='nav nav-third-level'>
+                     <!-- 第三级菜单 -->
+                     <th:block th:each="thirdList : ${session.thirdBeanList}">
+                     <th:block th:if="${thirdList.preMenuId}==${secondList.menuId}">
+                     <li>
+                      <a th:href="${thirdList.menuUri}">
+                                     <i th:class="'fa fa-fw '+${thirdList.iconName}"></i>
+                              [[${thirdList.menuName}]] <!--  这里应该是 “Administration”，有双引号-->
+                  	 </a>
+                     </li>
+                     </th:block>
+                     </th:block>
+                     </ul>
+                     
+            		 </th:block>
+                     
+                     
+                  
+                     
+                     
+                      
+                       <th:block th:unless="${secondList.isMenu}=='Y'">
+                        <!-- 第二级表单 没有子菜单-->
+                       <a th:href="${secondList.menuUri}">
+                     <i th:class="'fa fa-fw '+${secondList.iconName}"></i>
+                     [[${secondList.menuName}]]
+                       </a>
+                       </th:block>
+                       
+                     </li>
+            </th:block>
+      </th:block>
+      </ul>
+      </th:block>
+      
+      
+       
+      <th:block th:unless="${fistList.isMenu}=='Y'">
+      <!-- 第一级表单  没有子菜单 -->
+      <a th:href="${fistList.menuUri}">
+                     <i th:class="'fa fa-fw '+${fistList.iconName}"></i>
+                     [[${fistList.menuName}]]
+                   </a>
+      </th:block>
+      
+      
+      
+      </li>
+      </ul>
+      </div>
+      </div>
+      
+      
+      
+
+    
+</nav>
+</html>

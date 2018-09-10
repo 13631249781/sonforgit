@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/user/userView.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">User</li>
+                <li class="breadcrumb-item"><a th:href="@{/user/viewUserList}">User List</a></li>
+                <li class="breadcrumb-item active">User Detail</li>
+            </ol>
+            <div class="row" th:object="${userInfo}">
+                <div class="col-md-10">
+                    <form method="post">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-user"></i> Staff Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">Staff Number</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{staffNum}"></span>
+                                    </div>
+                                    <div class="col-md-2">User Name</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{userName}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">First Name</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{firstName}"></span>
+                                    </div>
+                                    <div class="col-md-2">Last Name</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{lastName}"></span>
+                                    </div>
+                                    <div class="col-md-2">Chinese Name</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{chineseName}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-id-card-o"></i> Job Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">Role</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{userRole.roleName}"></span>
+                                    </div>
+                                    <div class="col-md-2">Group</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{userGroup.groupName}"></span>
+                                    </div>
+                                    <div class="col-md-2">Department</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{userDepartment.deptName}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">Job Title</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{jobTitle}"></span>
+                                    </div>
+                                    <div class="col-md-2">Grade</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{grade}"></span>
+                                    </div>
+                                    <div class="col-md-2">Branch</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{branch}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">CCC</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{ccc}"></span>
+                                    </div>
+                                    <div class="col-md-2">CCC Name</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{cccName}"></span>
+                                    </div>
+                                    <div class="col-md-2">Company</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{company}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-phone"></i> Contact Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">Office Email</div>
+                                    <div class="col-md-6">
+                                        <span th:text="*{msMailAddress}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">Other Email</div>
+                                    <div class="col-md-6">
+                                        <span th:text="*{email}"></span>
+                                    </div>
+                                    <div class="col-md-2">Internet Address</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{internetAddress}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">Location</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{location}"></span>
+                                    </div>
+                                    <div class="col-md-2">Telephone</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{telephone}"></span>
+                                    </div>
+                                    <div class="col-md-2">Office Phone</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{officePhone}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">Fax</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{officeFax}"></span>
+                                    </div>
+                                    <div class="col-md-2">Mobile</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{mobile}"></span>
+                                    </div>
+                                    <div class="col-md-2">Pager</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{pager}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-info"></i> Other Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">Status</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{status}"></span>
+                                    </div>
+                                    <div class="col-md-2">Expiry Date</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{status}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">Responsibility</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{responsibility}"></span>
+                                    </div>
+                                    <div class="col-md-2">Supervisor ID</div>
+                                    <div class="col-md-2">
+                                        <span th:text="*{manStaffNum}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">Remark</div>
+                                    <div class="col-md-6">
+                                        <span th:text="*{remark}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-bell"></i> User Alert
+                            </div>
+                            <div class="panel-body" >
+                                <ul class="list-inline">
+                                    <li th:each="list : ${userAlertList}">
+                                        <label class="btn btn-primary disabled">
+                                            <input type="checkbox" name="alertId" th:value="${list.alertId}" th:checked="${list.userAvailability}" disabled="disabled">
+                                            <span th:text="${list.alertDescription}"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <th:block th:if="${session.userBean.userRole.allowAction}=='All'">
+                                <a th:href="@{/user/viewEditUser/}+*{staffNum}" class="btn btn-primary">Edit</a>
+                                <!--<input class="btn btn-primary" type="button" value="Edit" onClick="javascript:editUser(this.form);">-->
+                                <!--<a th:href="@{/user/deleteUser/}+*{staffNum}" class="btn btn-danger">Delete</a>-->
+                                <input class="btn btn-danger" type="button" value="Delete" th:onClick="'delUser('+*{staffNum}+')'">
+                            </th:block>
+                            <a th:href="@{/user/viewUserList}" class="btn btn-primary">Back</a>
+                            <!--<input class="btn btn-primary" type="button" value="Back" onclick="">-->
+                            <!--javascript:window.location='<s:url action="UserList" namespace="/admin/user" includeParams="none" />'-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

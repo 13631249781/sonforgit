@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/admin/dept.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Data Table</li>
+                <li class="breadcrumb-item"><a th:href="@{/dept/viewDeptList}">Department</a></li>
+                <li class="breadcrumb-item active">Department Detail</li>
+            </ol>
+            <form  th:object="${deptInfo}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-id-card-o"></i> Department Information
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Department ID</dt>
+                            <dd>
+                                <input type="hidden" th:field="*{deptId}">
+                                <span th:text="*{deptId}"></span>
+                            </dd>
+                            <dt>Description</dt>
+                            <dd>
+                                <span th:text="*{deptName}"></span>
+                            </dd>
+                            <dt>Created Date</dt>
+                            <dd>
+                                <span th:text="*{#dates.format(createDate,'yyyy/MM/dd HH:mm:ss')}"></span>
+                            </dd>
+                            <dt>Last Updated Date</dt>
+                            <dd>
+                                <span th:text="*{#dates.format(lastUpdDate,'yyyy/MM/dd HH:mm:ss')}"></span>
+                            </dd>
+                            <dt>Last Updated By</dt>
+                            <dd>
+                                <span th:text="*{lastUpdId}"></span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <th:block th:if="${session.userBean.userRole.allowAction}=='All'">
+                        <a th:href="|/dept/update/*{deptId}|" class="btn btn-primary">Edit</a>
+                        <input class="btn btn-danger" type="button" value="Delete" onclick="delDept(this.form)">
+                    </th:block>
+                    <a th:href="@{/dept/viewDeptList}" class="btn btn-primary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

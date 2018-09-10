@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/initmenudatatable :: init(~{::title},~{::link},~{::script})">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+<script>
+	$(document).ready(function() {
+		// highlightTableRows must be called before DataTable is created. Otherwise rows that are not in page 1 cannot be clicked. 
+		highlightTableRows("dataTable");
+		$('#dataTable').DataTable({
+			responsive : true
+		});
+	});
+
+	function view(systemName) {
+		window.location = "/admin/siteinterface/SiteInterface/" + systemName;
+	}
+</script>
+</head>
+<body>
+	<div id="wrapper">
+	<div th:replace="fragment/menu :: menu"></div>
+	<div id="page-wrapper">
+		<div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+			<script th:inline="javascript">
+			var	message = /*[[${message}]]*/ "";
+		if(message){
+			showSuccess(message);
+			}
+			</script>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Developer's Tool</li>
+		<li class="breadcrumb-item active">System Interface</li>
+	</ol>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<i class="fa fa-fw fa-exchange"></i> System Interface
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%;">
+				<thead>
+					<tr>
+						<th>System Name</th>
+						<th>URL</th>
+						<th>User Name</th>
+						<th>Last Updated Date</th>
+						<th>Last Updated By</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- <s:iterator value="resultList" status="stat">
+						<tr <s:if test="#stat.odd == true">class="odd"</s:if> <s:else>class="even"</s:else> style="cursor: hand">
+							<td><a href="javascript:view('<s:property value="systemName"/>')"><s:property value="systemName" /> </a></td>
+							<td><s:property value="url" /></td>
+							<td><s:property value="userName" /></td>
+							<td><s:date name="lastUpdatedDate" format="yyyy/MM/dd HH:mm:ss" /></td>
+							<td><s:property value="lastUpdatedBy" /></td>
+						</tr>
+					</s:iterator> -->
+
+				<tr th:each="result,rowstat: ${resultList}" th:class="${rowstat.odd == true}?'odd':'even'" style="cursor: hand">
+					<!-- <td></td> -->
+					<td><a th:href="'javascript:view(\''+${result.systemName}+'\')'">[[${result.systemName}]]</a></td>
+					<td>[[${result.url}]]</td>
+					<td>[[${result.userName}]]</td>
+					<td>[[${#dates.format(result.lastUpdatedDate, "yyyy/MM/dd HH:mm")}]]</td>
+					<td>[[${result.lastUpdatedBy}]]</td> 
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</div></div></div>
+</body>
+</html>

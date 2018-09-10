@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/datatable/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/bootstrap/datatable/datatables.min.js}"></script>
+    <script>
+        $(function(){
+            var table = $('#dataTable').DataTable();
+            $('#dataTable tbody').on('click','tr',function(){
+               var data = table.row(this).data();
+               window.location.replace('/admin/viewChildCode/'+$('#masterAppCode').val()+'/'+data[0]);
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Data Table</li>
+                <li class="breadcrumb-item"><a th:href="@{/admin/viewCodeList}">Parent Code</a></li>
+                <li class="breadcrumb-item active">Child Code</li>
+            </ol>
+            <form>
+                <input type="hidden" th:value="${masterAppCode}" id="masterAppCode">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-list-ol"></i> Child Code List
+                        <div class="btn-group pull-right" th:if="${session.userBean.userRole.allowAction}=='Add' or ${session.userBean.userRole.allowAction}=='All'">
+                            <a th:href="|@{/admin/viewChildCodeCreate/}${masterAppCode}|" class="btn btn-default btn-xs text-blue">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th>Child Code</th>
+                                <th>Description</th>
+                                <th>Create Date</th>
+                                <th>Last Updated Date</th>
+                                <th>Last Updated By</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:class="${listStat.odd}?'odd':'even'" th:each="list,listStat:${childCodeList}">
+                                <td th:text="${list.appCd}"></td>
+                                <td th:text="${list.appDesc}"></td>
+                                <td th:text="${#dates.format(list.createDate,'yyyy/MM/dd hh:mm:ss')}"></td>
+                                <td th:text="${#dates.format(list.lastUpdDate,'yyyy/MM/dd hh:mm:ss')}"></td>
+                                <td th:text="${list.lastUpdId}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

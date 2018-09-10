@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/admin/group.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Application</li>
+                <li class="breadcrumb-item"><a th:href="@{/group/viewGroupList}">Group</a></li>
+                <li class="breadcrumb-item active">Group Info</li>
+            </ol>
+            <form th:object="${groupInfo}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-object-group"></i> Group Information
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Group Name</dt>
+                            <dd>
+                                <span th:text="*{groupName}"></span>
+                            </dd>
+                            <dt>Description</dt>
+                            <dd>
+                                <span th:text="*{description}"></span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <th:block th:if="${session.userBean.userRole.allowAction}=='All'">
+                        <a th:href="@{/group/update/}+*{groupId}" class="btn btn-primary">Edit</a>
+                        <input type="button" class="btn btn-danger" th:onclick="'delGroup('+*{groupId}+')'" value="Delete">
+                    </th:block>
+                    <a th:href="@{/group/viewGroupList}" class="btn btn-primary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+    <script th:inline="javascript">
+       	function addMenuId() {
+		var aform = document.forms[0];
+		var menuList = aform.menuList;
+		var moptions = menuList.options;
+		var menuIdList = aform.selectedMenuList;
+		var idoptions = menuIdList.options;
+		var found = false;
+		for (var i = 0; i < moptions.length; i++) {
+			if (moptions[i].selected) {
+				found = false;
+				for (var j = 0; j < idoptions.length; j++) {
+					if (idoptions[j].value == moptions[i].value) {
+						found = true;
+					}
+				}
+				if (!found) {
+					idoptions[idoptions.length] = new Option(moptions[i].text, moptions[i].value);
+				}
+			}
+		}
+	}
+
+	function removeMenuId() {
+		var aform = document.forms[0];
+		var menuIdList = aform.selectedMenuList;
+		var idoptions = menuIdList.options;
+		var len = idoptions.length;
+		for (var i = (len - 1); i >= 0; i--) {
+			if (idoptions[i].selected)
+				idoptions[i] = null;
+		}
+	}
+
+	function checkForm() {
+		var aform = document.forms[0];
+		var groupOptions = aform.groupId.value;
+		var menuOptions = aform.selectedMenuList.options;
+
+		if (groupOptions.length <= 0) {
+			alert('Please select a group');
+			return false;
+		}
+
+		if (menuOptions.length <= 0) {
+			alert('Please select at least one menu');
+			return false;
+		}
+
+		for (var i = 0; i < menuOptions.length; i++) {
+			menuOptions[i].selected = true;
+		}
+
+		return true;
+	}
+
+	function showGroupDesc(box) {
+		var text = document.forms[0].groupDesc[box.options.selectedIndex].value;
+		if (text == "null")
+			text = "- No Description -";
+		document.all.descBox.innerHTML = '<table width=\'100%\' bgcolor=\'#DDDDEC\'><tr><td><b>Group Description:</b></td></tr><tr><td>'
+			+ text + '</td></tr></table>';
+		document.all.descBox.style.visibility = "visible";
+	}
+
+	function hideGroupDesc() {
+		document.all.descBox.style.visibility = "hidden";
+	}
+
+	function showSkillDesc(box) {
+		var text = document.forms[0].menuDesc[box.options.selectedIndex].value;
+		if (text == "null")
+			text = "- No Description -";
+		document.all.descBox2.innerHTML = '<table width=\'100%\' bgcolor=\'#DDDDEC\'><tr><td><b>Menu Description:</b></td></tr><tr><td>'
+			+ text + '</td></tr></table>';
+		document.all.descBox2.style.visibility = "visible";
+	}
+
+	function hideSkillDesc() {
+		document.all.descBox2.style.visibility = "hidden";
+	}
+
+	function goTo(value) {
+		var aform = document.forms[0];
+		aform.type.value = value;
+		if (value == "update")
+			aform.action = "toGroupMenuUpdate";
+		else if (value == "delete") {
+			if (aform.groupId.value == "") {
+				alert("Please select a group menu ID to delete.");
+				return;
+			}
+			if (!confirm("Are you sure you want to delete this group menu?"))
+				return;
+			aform.action = "GroupMenuDelete";
+		} else if (value == "new")
+			aform.action = "GroupMenuCreate";
+		else
+			aform.action = "GroupMenuList";
+		aform.submit();
+	}
+    </script>
+</head>
+<body>
+  <div id="wrapper">
+      <div th:replace="fragment/menu :: menu"></div>
+      <div id="page-wrapper">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item">Administration</li>
+          <li class="breadcrumb-item">Application</li>
+          <li class="breadcrumb-item active">Access Admin</li>
+      </ol>
+          <div th:if="${successMessage != null}" class="alert alert-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <span th:text="${successMessage}"/>
+          </div>
+          <div th:if="${errorMessage != null}" class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <span th:text="${errorMessage}"/>
+          </div>
+      <form method="post" action="GroupMenuUpdate" onSubmit="return checkForm()">
+          <input type="hidden" name="type">
+          <div class="form-group row">
+              <div class="col-xs-2">
+                  <select name="groupId" class="form-control" onChange="goTo('update')">
+                      <option th:selected="${group.groupId eq c.groupId}" th:each="c:${groupMenuList}" th:value="${c.groupId}" th:text="${c.groupName}"></option>
+                  </select>
+              </div>
+              <input name="Create" type="button" value="New" onClick="goTo('new')" class="btn btn-primary"
+                     th:if="${session.userBean.userRole.allowAction == 'Add' || session.userBean.userRole.allowAction == 'All'}" />
+              <span th:if="${session.userBean.userRole.allowAction =='All'}">
+                         <input type="button" name="Update" value="Update" onClick="goTo('update')" class="btn btn-primary" />
+                         <input type="button" name="Delete" value="Delete" onClick="goTo('delete')" class="btn btn-danger" />
+                         </span>
+          </div>
+          <div class="col-xs-6">
+              <div class="row">
+                  <table class="text-center">
+                      <tr>
+                          <td><label for="menuList">Available Menu</label></td>
+                          <td></td>
+                          <td><label for="selectedMenuList">Selected Menu</label></td>
+                      </tr>
+                      <tr>
+                          <td style="width: 45%;">
+                              <select name="menuList" multiple="true" class="form-control" size="15">
+                                  <option th:each="menu:${menuList}" th:value="${menu.menuId}" th:text="${menu.menuName}"></option>
+                              </select>
+                          </td>
+                          <td style="width: 10%; vertical-align: middle;"><input name="addMenu" type="button" id="addMenu2" value=" &gt;&gt; "
+                                                                                 onclick="javascript: addMenuId()" class="btn btn-info btn-s"> <input name="removeMenu" type="button" id="removeMenu2" value=" &lt;&lt; "
+                                                                                                                                                      onclick="javascript:removeMenuId()" class="btn btn-info btn-s"></td>
+                          <td style="width: 45%;">
+                              <select name="selectedMenuList" class="form-control" size="15" multiple="true">
+                                  <option th:each="select:${selectedMenuList}" th:value="${select.menuId}" th:text="${select.menuName}"></option>
+                              </select>
+                          </td>
+                      </tr>
+                  </table>
+                  <br/>
+                  <div class="text-center" th:if="${session.userBean.userRole.allowAction =='All'}">
+                      <input type="Submit" value="Submit" class="btn btn-primary" />
+                  </div>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+</body>
+</html>

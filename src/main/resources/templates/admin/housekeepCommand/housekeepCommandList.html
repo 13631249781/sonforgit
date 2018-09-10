@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/initmenudatatable :: init(~{::title},~{::link},~{::script})">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+    <script>
+	$(document).ready(function() {
+		// highlightTableRows must be called before DataTable is created. Otherwise rows that are not in page 1 cannot be clicked. 
+		highlightTableRows("dataTable");
+		$('#dataTable').DataTable({
+			responsive : true
+		});
+	});
+
+	function view(description) {
+		 window.location.href = "/admin/housekeepcommand/HousekeepCommand/view/" + description; 
+	}
+</script>
+</head>
+<body>
+<div id="wrapper">
+	<div th:replace="/fragment/menu :: menu"></div>
+	<div id="page-wrapper">
+		<div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+			<script th:inline="javascript">
+			var	message = /*[[${message}]]*/ "";
+			if(message){
+			if(message.indexOf("Fail")!=-1)
+				showError(message); 
+			if(message.indexOf("success")!=-1)
+			 	showSuccess(message);
+			}
+			</script>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Developer's Tool</li>
+		<li class="breadcrumb-item active">Housekeep Command</li>
+	</ol>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<i class="fa fa-fw fa-trash-o"></i> Housekeep Command
+				<div class="btn-group pull-right" th:if="${session.userBean.userRole.allowAction}=='All' or ${session.userBean.userRole.allowAction}=='Add'">
+					<button type="button" class="btn btn-default btn-xs text-blue" onClick="window.location='/admin/housekeepcommand/HousekeepCommand'">
+						<i class="fa fa-plus"></i>
+					</button>
+				</div>
+			</s:if>
+		</div>
+	
+		<div class="panel-body">
+			<table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%;">
+				<thead>
+					<tr>
+						<th>Description</th>
+						<th>SQL Command</th>
+						<th>Sequence No</th>
+						<th>Enabled</th>
+						<th>Created Date</th>
+						<th>Last Updated Date</th>
+						<th>Last Updated By</th>
+					</tr>
+				</thead>
+				<tbody>
+			
+			<tr th:each="housekeepCommand,rowstat:${housekeepCommandList}" style="cursor: hand" th:class="${rowstat.odd==true}?'odd':'even'"> 		    
+				    <td><a th:href="'javascript:view(\''+${housekeepCommand.description}+'\')' ">[[${housekeepCommand.description}]]</a></td>
+				    <td>[[${housekeepCommand.sqlCommand}]]</td>
+				    <td>[[${housekeepCommand.seqNo}]]</td> 
+				    
+				    <td><i class="fa fa-check text-green" title="Enabled" th:if="${housekeepCommand.enableInd=='Y'}"></i>
+				        <i class="fa fa-times text-red"  th:unless="${housekeepCommand.enableInd=='Y'}" title="Enabled"></i>
+				    </td> 
+				    <td>[[${#dates.format(housekeepCommand.createDate, "yyyy/MM/dd HH:mm")}]]</td>
+				    <td>[[${#dates.format(housekeepCommand.lastUpdatedDate, "yyyy/MM/dd HH:mm")}]]</td>
+				    <td>[[${housekeepCommand.lastUpdatedBy}]]</td> 
+				   
+			</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</div>
+	<!-- <%@ include file="/user/footer.jsp"%> -->
+	
+	</div>
+	</div>
+	
+</body>
+</html>

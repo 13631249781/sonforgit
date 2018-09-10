@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>My Account</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/user/userView.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <form id="updateUserForm" th:object="${session.userBean}">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-user"></i> Staff Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        Staff Number:
+                                        <span th:text="*{staffNum}"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        User Name:
+                                        <span th:text="*{userName}"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" name="firstName" maxlength="50" placeholder="First Name" th:value="*{firstName}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" name="lastName" maxlength="40" placeholder="Last Name" th:value="*{lastName}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" name="chineseName" maxlength="30" placeholder="Chinese Name" th:value="*{chineseName}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-phone"></i> Contact Information
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <input type="text" name="msMailAddress" maxlength="50" placeholder="Email" class="form-control" th:value="*{msMailAddress}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="location" maxlength="30" placeholder="Location" class="form-control" th:value="*{location}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <input type="text" name="officePhone" maxlength="30" placeholder="Office Phone" class="form-control" th:value="*{officePhone}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="mobile" maxlength="20" placeholder="Mobile" class="form-control" th:value="*{mobile}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="telephone" maxlength="20" placeholder="Telephone" class="form-control" th:value="*{telephone}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="officeFax" maxlength="20" placeholder="Fax" class="form-control" th:value="*{officeFax}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-fw fa-bell"></i> User Alert
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-inline" >
+                                    <li th:each="list : ${userAlertList}">
+                                        <label class="btn btn-primary">
+                                            <input type="checkbox" name="alertId" th:value="${list.alertId}" th:checked="${list.userAvailability}">
+                                            <span th:text="${list.alertDescription}"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <input type="button" value="Submit" class="btn btn-primary" onclick="updateUser();">
+                            <input type="reset" value="Reset" class="btn">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

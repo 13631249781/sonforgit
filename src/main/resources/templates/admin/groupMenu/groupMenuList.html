@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+    <script th:inline="javascript">
+        function goTo(value) {
+            var aform = document.forms[0];
+            aform.type.value = value;
+            if (value == "update"){
+                aform.action = "toGroupMenuUpdate";
+            }else if (value == "delete"){
+                aform.action = "GroupMenuDelete";
+            }else if (value == "new"){
+                aform.action = "GroupMenuCreate";
+            }else{
+                aform.action = "GroupMenuList";
+            }
+            aform.submit();
+        }
+    </script>
+</head>
+<body>
+<div id="wrapper">
+      <div th:replace="fragment/menu :: menu"></div>
+     <div id="page-wrapper">
+         <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+             <ol class="breadcrumb">
+                 <li class="breadcrumb-item">Administration</li>
+                 <li class="breadcrumb-item">Application</li>
+                 <li class="breadcrumb-item active">Access Admin</li>
+             </ol>
+             <div th:if="${errorMessage != null}" class="alert alert-warning alert-dismissible" role="alert">
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <span th:text="${errorMessage}"/>
+             </div>
+             <form method="post" action="GroupMenuUpdate">
+                 <input type="hidden" name="type">
+                 <div class="form-group row">
+                     <div class="col-xs-2">
+                         <select name="groupId" class="form-control" onChange="goTo('update')">
+                             <option th:value="0">Select Group</option>
+                             <option th:each="c:${groupMenuList}" th:value="${c.groupId}" th:text="${c.groupName}"></option>
+                         </select>
+                     </div>
+                         <input name="Create" type="button" value="New" onClick="goTo('new')" class="btn btn-primary"
+                                th:if="${session.userBean.userRole.allowAction == 'Add' || session.userBean.userRole.allowAction == 'All'}" />
+                     <span th:if="${session.userBean.userRole.allowAction =='All'}">
+                         <input type="button" name="Update" value="Update" onClick="goTo('update')" class="btn btn-primary" />
+                         <input type="button" name="Delete" value="Delete" onClick="goTo('update')" class="btn btn-danger" />
+                         </span>
+                 </div>
+             </form>
+         </div>
+     </div>
+</div>
+</body>
+</html>

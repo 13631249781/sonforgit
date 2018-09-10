@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/initmenudatatable :: init(~{::title},~{::link},~{::script})">
+    <title>Report Management System</title>
+    <link rel="stylesheet" href="">
+    <script></script>
+</head>
+<body>
+	<div id="wrapper">
+	<div th:replace="fragment/menu :: menu"></div>
+	<div id="page-wrapper">
+		<div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+			<script th:inline="javascript">
+			showSuccess([[${successMessage}]]?[[${successMessage}]]:"")
+			showInfo([[${infoMessage}]]?[[${infoMessage}]]:"");
+			showWarning([[${warningMessage}]]?[[${warningMessage}]]:"");  
+			showError([[${errorMessage}]]?[[${errorMessage}]]:"");
+			</script>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Developer's Tool</li>
+		<li class="breadcrumb-item"><a href="/admin/siteinterface/SiteInterfaceList">System Interface</a></li>
+		<li class="breadcrumb-item active">Update System Interface</li>
+	</ol>
+	<form method="post" action="/admin/siteinterface/SiteInterface" autocomplete="off">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-fw fa-exchange"></i> Site Interface Information
+			</div>
+			<div class="panel-body">
+				<div class="form-group row">
+					<div class="col-xs-2">
+						<label for="resultBean_systemName">System Name</label>
+						<input type="text" name="systemName" class="form-control" readonly="readonly" th:value="${resultBean.systemName}"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-6">
+						<label for="resultBean_url">URL</label>
+						<input type="text" name="url" class="form-control" maxlength="100" required="required" th:value="${resultBean.url}"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-3">
+						<label for="resultBean_userName">User Name</label>
+						<input type="text" name="userName" class="form-control" maxlength="50"  th:value="${resultBean.userName}"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-3">
+						<label for="resultBean_password">Password</label>
+						<input type="text" name="password" class="form-control" maxlength="50" th:value="${resultBean.password}"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-6">
+						<label for="resultBean_xappKey">X-APP-Key</label>
+						<input type="text" name="xappKey" class="form-control" maxlength="50" th:value="${resultBean.xappKey}"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-3">
+						<label for="resultBean_beId">BEID</label>
+						<input type="text" name="beId" class="form-control" maxlength="20" th:value="${resultBean.beId}"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-3">
+						<label for="resultBean_channelType">Channel Type</label>
+						<input type="text" name="channelType" class="form-control" maxlength="20" th:value="${resultBean.channelType}" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<input class="btn btn-primary" type="submit" value="Submit"> <input class="btn" type="reset" value="Reset"> <input class="btn btn-primary"
+				type="button" value="Back" onClick="window.location='./SiteInterfaceList.action'">
+		</div>
+	</form>
+</div>
+</div>
+</div>
+</body>
+</html>

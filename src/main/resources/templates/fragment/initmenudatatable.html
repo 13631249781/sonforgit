@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="init(title,links,scripts)">
+    <title th:replace="${title}"></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dataTables.bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dataTables.responsive.css}">
+    <link rel="stylesheet" href="/css/metisMenu.min.css" th:href="@{/bootstrap/metisMenu/metisMenu.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+ 
+ 	<script src="/jquery/jquery.min.js" th:src="@{/jquery/jquery.min.js}"></script>   
+    <script th:src="@{/bootstrap/bootstrap.min.js}"></script>  
+    <script src="/js/bootstrap-notify.js?v=1" th:src="@{/js/bootstrap-notify.js?v=1}"></script>  
+    <script th:src="@{/bootstrap/metisMenu/metisMenu.min.js}"></script> 
+     
+    <script th:src="@{/js/jquery.dataTables.min.js}"></script>  
+    <script th:src="@{/js/dataTables.bootstrap.min.js}"></script>  
+    <script th:src="@{/js/dataTables.responsive.js}"></script>  
+   
+   
+    <script th:src="@{/js/common/global.js?v=1}"></script>  
+    <script th:src="@{/js/login.js}"></script>  
+    <script th:src="@{/js/common/sb-admin-2.js}"></script>  
+
+   
+
+    <th:block th:replace="${links}"/>
+    <th:block th:replace="${scripts}"/>
+</head>
+</html>

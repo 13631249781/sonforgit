@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/datatable/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/bootstrap/datatable/datatables.min.js}"></script>
+    <script th:src="@{/js/admin/role.js}"></script>
+    <script>
+        $(function(){
+            var table =$('#roleTable').DataTable();
+            $('#roleTable tbody').on('click','tr',function(){
+               var data = table.row(this).data();
+               window.location.replace('/role/view/'+data[0]);
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Application</li>
+                <li class="breadcrumb-item active">Role</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-fw fa-id-badge"></i> Role List
+                    <div class="btn-group pull-right" th:if="${session.userBean.userRole.allowAction}=='Add' or ${session.userBean.userRole.allowAction}=='All'">
+                        <a th:href="@{/role/viewRoleCreate}" class="btn btn-default btn-xs text-blue">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-hover" id="roleTable" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Role ID</th>
+                                <th>Role Name</th>
+                                <th>Role Description</th>
+                                <th>View</th>
+                                <th>Add</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:class="${listStat.odd}?'odd':'even'"  th:each="list,listStat:${roleList}">
+                                <td th:text="${list.roleId}"></td>
+                                <td th:text="${list.roleName}"></td>
+                                <td th:text="${list.description}"></td>
+                                <td th:switch="${list.viewAction}">
+                                    <i th:case="Y" class="fa fa-check text-green" title="View"></i>
+                                </td>
+                                <td th:switch="${list.addAction}">
+                                    <i th:case="Y" class="fa fa-check text-green" title="Add"></i>
+                                </td>
+                                <td th:switch="${list.updateAction}">
+                                    <i th:case="Y" class="fa fa-check text-green" title="Update"></i>
+                                </td>
+                                <td th:switch="${list.deleteAction}">
+                                    <i th:case="Y" class="fa fa-check text-green" title="Delete"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>l

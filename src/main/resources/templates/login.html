@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <script></script>
+</head>
+<body style="background: url('../images/background.jpg') no-repeat; background-color: #fff;"
+    th:style="'background: url('+ @{/images/background.jpg}+ ') no-repeat; background-color: #fff;'"
+>
+<div class="container">
+    <div class="row vertical-offset-150">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Order Processing Gateway
+                        <div class="btn-group pull-right">
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Env: ${environment} Ver: ${version}"><i class="fa fa-info"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form name="loginForm" th:action="@{/logon}" method="post">
+                        <input type="hidden" name="password">
+                        <div class="form-group">
+                            <input type="text" value="" name="userName" class="form-control" placeholder="User Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" value="" name="txtPassword" class="form-control" placeholder="Password">
+                        </div>
+                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <div style="padding-top: 20px; font-size: .7em; color: #555555;">
+                *************************************************************************************************************************************************** <br />
+                PCCW GDCN <br /> <br /> - The system is to be logged in to or used only by specifically authorized personnel <br /> - Any unauthorized use of the system
+                is unlawful and may be subject to civil and/or criminal penalties <br /> - Use of the system is logged or monitored without further notice, and that the
+                resulting logs may be used as evidence in court <br /> <br /> <b>UNAUTHORIZED ACCESS IS PROHIBITED </b><br />
+                ***************************************************************************************************************************************************
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

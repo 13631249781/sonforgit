@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/datatable/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/bootstrap/datatable/datatables.min.js}"></script>
+    <script th:src="@{/js/user/userView.js}"></script>
+    <script>
+$(function(){
+    var table =$('#userTable').DataTable();
+    $('#userTable tbody').on('click','tr',function(){
+       var data = table.row(this).data();
+       window.location.replace('/user/view/'+data[0]);
+    });
+})
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">User</li>
+                <li class="breadcrumb-item active">User List</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-fw fa-users"></i> User Enquiry
+                    <div class="btn-group pull-right" th:if="${session.userBean.userRole.allowAction}=='Add' or ${session.userBean.userRole.allowAction}=='All'">
+                        <a th:href="@{/user/viewUserCreate}" class="btn btn-default btn-xs text-blue">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table  id="userTable" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Staff Number</th>
+                                <th>User Name</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Chinese Name</th>
+                                <th>Department</th>
+                                <th>Role</th>
+                                <th>Group</th>
+                                <th>Job Title</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:class="${listStat.odd}?'odd':'even'"  th:each="list,listStat:${userList}">
+                                <td th:text="${list.staffNum}"></td>
+                                <td th:text="${list.userName}"></td>
+                                <td th:text="${list.firstName}"></td>
+                                <td th:text="${list.lastName}"></td>
+                                <td th:text="${list.chineseName}"></td>
+                                <td th:text="${list.userDepartment.deptName}"></td>
+                                <td th:text="${list.userRole.roleName}"></td>
+                                <td th:text="${list.userGroup.groupName}"></td>
+                                <td th:text="${list.jobTitle}"></td>
+                                <td th:text="${list.status}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

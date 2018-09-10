@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/head :: common_header(~{::title},~{::link},~{::script})">
+    <title>RMS</title>
+    <link rel="stylesheet" href="">
+    <script th:src="@{/js/admin/menu.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragment/menu :: menu"></div>
+    <div id="page-wrapper">
+        <div class="container-fluid" style="padding-bottom: 15px; padding-top: 15px;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Administration</li>
+                <li class="breadcrumb-item">Application</li>
+                <li class="breadcrumb-item"><a th:href="@{/menu/viewMenuList}">Menu</a></li>
+                <li class="breadcrumb-item active">Menu Detail</li>
+            </ol>
+            <form th:object="${menuInfo}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-fw fa-th-list"></i> Menu Information
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Menu Name</dt>
+                            <dd>
+                                <span th:text="*{menuName}"></span>
+                            </dd>
+                            <dt>Description</dt>
+                            <dd>
+                                <span th:text="*{description}"></span>
+                            </dd>
+                            <dt>Menu URI</dt>
+                            <dd>
+                                <span th:text="*{menuUri}"></span>
+                            </dd>
+                            <dt>Pre Menu</dt>
+                            <dd>
+                                <span th:text="*{preMenuId}"></span>
+                            </dd>
+                            <dt>Is Pre Menu</dt>
+                            <dd>
+                                <span th:text="*{isMenu}"></span>
+                            </dd>
+                            <dt>Menu Level</dt>
+                            <dd>
+                                <span th:text="*{menuLevel}"></span>
+                            </dd>
+                            <dt>Activation Date</dt>
+                            <dd>
+                                <span th:text="*{#dates.format(activatedDate,'yyyy/MM/dd')}"></span>
+                            </dd>
+                            <dt>Sequence</dt>
+                            <dd>
+                                <span th:text="*{sequence}"></span>
+                            </dd>
+                            <dt>Icon Name</dt>
+                            <dd>
+                                <span th:text="*{iconName}"></span>
+                                <i th:if="*{iconName} !=''" th:class="*{'fa fa-fw '+iconName}"></i>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <th:block th:if="${session.userBean.userRole.allowAction}=='All'">
+                        <a th:href="@{/menu/update/}+*{menuId}" class="btn btn-primary">Edit</a>
+                        <input type="button" class="btn btn-danger" th:onclick="'delMenu('+*{menuId}+')'" value="Delete">
+                    </th:block>
+                    <a th:href="@{/menu/viewMenuList}" class="btn btn-primary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>l
