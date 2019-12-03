@@ -7,5 +7,6 @@ public class Kiss {
                 //temparory comment
 
                 //test tag2
+                //test tag3
         }
 }
